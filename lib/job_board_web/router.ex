@@ -20,6 +20,13 @@ defmodule JobBoardWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/jobs", JobController, only: [:index]
+  end
+
+  scope "/", JobBoardWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    resources "/jobs", JobController, except: [:index]
   end
 
   # Other scopes may use custom stacks.
